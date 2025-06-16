@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@anthropic-ai/claude-code": "*",
-    "chalk": "^4.1.2",
+    "chalk": "^5.4.1",
     "commander": "^11.1.0",
     "inquirer": "^9.2.12"
   },
