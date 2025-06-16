@@ -1,0 +1,189 @@
+.TH SISI 1 "2024-01-01" "sisi-cmux 1.0.0" "User Commands"
+.SH NAME
+sisi \- multi-project workspace manager with Claude Code integration
+.SH SYNOPSIS
+.B sisi
+.RI [ directory ]
+.br
+.B sisi stop
+.br
+.B sisi
+.BR \-h ", " \-\-help
+.br
+.B sisi
+.BR \-V ", " \-\-version
+.SH DESCRIPTION
+.B sisi
+is a command-line tool that creates organized tmux workspaces from directories containing multiple projects. It automatically discovers projects, detects their types (Node.js, Python, Rust, Go, Web), and creates a tmux session with one window per project.
+
+The tool integrates with Claude Code to provide AI assistance within each project workspace.
+.SH OPTIONS
+.TP
+.I directory
+Directory to scan for projects. Defaults to current working directory if not specified.
+.TP
+.B stop
+Stop the current workspace session.
+.TP
+.BR \-h ", " \-\-help
+Show help information and exit.
+.TP
+.BR \-V ", " \-\-version
+Show version information and exit.
+.SH COMMANDS
+.TP
+.B sisi [directory]
+Create a new workspace from the specified directory, or attach to existing workspace if one is already running. The tool will:
+.RS
+.IP \(bu 2
+Scan the directory for subdirectories containing projects
+.IP \(bu 2
+Detect project types based on configuration files
+.IP \(bu 2
+Create a tmux session named "sisi-workspace"
+.IP \(bu 2
+Create one window per project with appropriate icons
+.IP \(bu 2
+Set up key bindings for navigation and Claude integration
+.RE
+.TP
+.B sisi stop
+Terminate the current workspace session and clean up resources.
+.SH PROJECT DETECTION
+.B sisi
+automatically detects project types based on the presence of specific files:
+.TP
+.B Node.js (📦)
+Presence of
+.I package.json
+.TP
+.B Python (🐍)
+Presence of
+.I requirements.txt
+or
+.I pyproject.toml
+.TP
+.B Rust (⚙️)
+Presence of
+.I Cargo.toml
+.TP
+.B Go (⚙️)
+Presence of
+.I go.mod
+.TP
+.B Web (🌐)
+Presence of
+.I index.html
+.TP
+.B Unknown (📁)
+Directories with substantial content but no recognized project files
+.SH TMUX KEY BINDINGS
+Once inside the workspace, the following tmux key bindings are available:
+.TP
+.B Ctrl+b P
+Open interactive project selector with fuzzy search
+.TP
+.B Ctrl+b C
+Launch Claude Code in the current project directory
+.TP
+.B Ctrl+b S
+Stop the workspace (same as 'sisi stop')
+.TP
+.B Ctrl+b 1\-9
+Jump directly to project windows 1-9
+.TP
+.B Ctrl+b n, Ctrl+b p
+Navigate to next/previous project window
+.SH PERFORMANCE AND LIMITS
+For performance and safety:
+.IP \(bu 2
+Directory scanning is limited to 100 subdirectories
+.IP \(bu 2
+Scanning operations timeout after 30 seconds
+.IP \(bu 2
+Empty directories are automatically skipped
+.IP \(bu 2
+Common build/cache directories are excluded (node_modules, .git, target, dist, etc.)
+.SH REQUIREMENTS
+.TP
+.B tmux
+Version 2.0 or higher is required for proper operation.
+.TP
+.B Claude CLI
+The Claude Code CLI must be installed and authenticated for AI integration features.
+Install from https://claude.ai/code and run 'claude auth'.
+.SH FILES
+.TP
+.I /tmp/sisi-tmux-config.conf
+Temporary tmux configuration file created during session setup.
+.SH ENVIRONMENT
+.B sisi
+uses the following environment:
+.IP \(bu 2
+Checks PATH for tmux and claude/claude-code binaries
+.IP \(bu 2
+Uses system temporary directory for configuration files
+.IP \(bu 2
+Respects file system permissions for directory access
+.SH EXAMPLES
+.TP
+Create workspace from projects directory:
+.B sisi ~/dev/projects
+.TP
+Create workspace from current directory:
+.B sisi
+.TP
+Stop the current workspace:
+.B sisi stop
+.TP
+Typical workflow:
+.nf
+.RS
+$ sisi ~/dev/websites
+🔍 Checking dependencies...
+✓ tmux 3.2a
+✓ claude (claude-cli 1.0.0)
+🔍 Discovering projects...
+  Scanning 5 entries...
+📦 Found 3 projects:
+  node (2):
+    📦 next-app
+    📦 blog
+  web (1):
+    🌐 portfolio
+✅ Workspace created!
+# Now in tmux with 3 project windows
+.RE
+.fi
+.SH DIAGNOSTICS
+.B sisi
+provides clear error messages for common issues:
+.TP
+.B Dependency errors
+Missing tmux or Claude CLI with installation instructions
+.TP
+.B Directory errors
+Invalid paths, permission issues, or inaccessible directories
+.TP
+.B Timeout errors
+When directory scanning takes too long (over 30 seconds)
+.TP
+.B Session errors
+Issues creating or managing tmux sessions
+.SH EXIT STATUS
+.TP
+.B 0
+Success
+.TP
+.B 1
+Error (dependency missing, invalid directory, tmux failure, etc.)
+.SH SEE ALSO
+.BR tmux (1),
+.BR claude (1)
+.SH BUGS
+Report bugs at: https://github.com/username/sisi-cmux/issues
+.SH AUTHOR
+Written by the sisi-cmux contributors.
+.SH COPYRIGHT
+Copyright \(co 2024 sisi-cmux contributors.
+Licensed under the MIT License.

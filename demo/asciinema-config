@@ -1,0 +1,15 @@
+# Asciinema configuration for sisi-cmux demo
+# Copy to ~/.config/asciinema/config or use with --config flag
+
+[record]
+# Terminal dimensions for best compatibility
+cols = 100
+rows = 30
+
+# Recording settings
+command = ./demo/demo-script.sh
+title = "Sisi-CMUX: Multi-project workspace manager with Claude Code"
+idle_time_limit = 3.0
+
+# Environment
+env = TERM=xterm-256color

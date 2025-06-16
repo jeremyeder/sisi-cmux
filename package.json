@@ -1,0 +1,56 @@
+{
+  "name": "sisi-cmux",
+  "version": "1.0.0",
+  "description": "Multi-project workspace manager with Claude code assistant integration",
+  "type": "module",
+  "main": "dist/cli.js",
+  "bin": {
+    "sisi": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "npm run build && node dist/cli.js",
+    "dev": "ts-node src/cli.ts",
+    "test": "jest src/__tests__/simple.test.ts src/__tests__/basic.test.ts src/__tests__/types.test.ts",
+    "test:watch": "jest --watch src/__tests__/simple.test.ts src/__tests__/basic.test.ts src/__tests__/types.test.ts",
+    "test:docs": "jest src/__tests__/documentation.test.ts",
+    "test:all": "jest",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix",
+    "type-check": "tsc --noEmit",
+    "security:audit": "npm audit",
+    "quality": "npm run type-check && npm run lint && npm run test",
+    "prerelease": "npm run quality && npm run security:audit"
+  },
+  "dependencies": {
+    "@anthropic-ai/claude-code": "*",
+    "chalk": "^4.1.2",
+    "commander": "^11.1.0",
+    "inquirer": "^9.2.12"
+  },
+  "peerDependencies": {
+    "@anthropic-ai/claude-code": "*"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^9.0.7",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^20.10.4",
+    "@typescript-eslint/eslint-plugin": "^8.34.1",
+    "@typescript-eslint/parser": "^8.34.1",
+    "eslint": "^9.29.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.4.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  },
+  "keywords": [
+    "tmux",
+    "workspace",
+    "productivity",
+    "cli",
+    "developer-tools",
+    "claude"
+  ],
+  "author": "",
+  "license": "MIT"
+}
