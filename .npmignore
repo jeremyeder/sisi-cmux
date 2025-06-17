@@ -1,0 +1,27 @@
+# Source files
+src/
+tsconfig.json
+.eslintrc.js
+
+# Tests
+**/*.test.ts
+**/*.test.js
+jest.config.js
+
+# Development
+.git/
+.gitignore
+node_modules/
+.DS_Store
+*.log
+
+# Documentation source
+docs/
+
+# Demo scripts (keep only the recording)
+demo/demo-script*.sh
+demo/README.md
+demo/asciinema-config
+
+# Build artifacts (temp)
+*.tsbuildinfo

@@ -5,7 +5,7 @@
   "type": "module",
   "main": "dist/cli.js",
   "bin": {
-    "sisi": "./dist/cli.js"
+    "sisi": "dist/cli.js"
   },
   "scripts": {
     "build": "tsc",
@@ -51,6 +51,42 @@
     "developer-tools",
     "claude"
   ],
-  "author": "",
-  "license": "MIT"
+  "author": "Jeremy Eder",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeremyeder/sisi-cmux.git"
+  },
+  "homepage": "https://github.com/jeremyeder/sisi-cmux#readme",
+  "bugs": {
+    "url": "https://github.com/jeremyeder/sisi-cmux/issues"
+  },
+  "files": [
+    "dist/cli.js",
+    "dist/cli.js.map",
+    "dist/cli.d.ts",
+    "dist/discovery.js",
+    "dist/discovery.js.map",
+    "dist/discovery.d.ts",
+    "dist/tmux.js",
+    "dist/tmux.js.map",
+    "dist/tmux.d.ts",
+    "dist/tmux-config.js",
+    "dist/tmux-config.js.map",
+    "dist/tmux-config.d.ts",
+    "dist/types.js",
+    "dist/types.js.map",
+    "dist/types.d.ts",
+    "dist/utils.js",
+    "dist/utils.js.map",
+    "dist/utils.d.ts",
+    "dist/project-selector.js",
+    "dist/project-selector.js.map",
+    "dist/project-selector.d.ts",
+    "dist/stop-workspace.js",
+    "dist/stop-workspace.js.map",
+    "dist/stop-workspace.d.ts",
+    "README.md",
+    "demo/sisi-demo.cast"
+  ]
 }
