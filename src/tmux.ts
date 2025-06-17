@@ -126,7 +126,26 @@ export async function attachSession(): Promise<void> {
     throw new ValidationError('No workspace session found. Use "sisi start <directory>" first.', 'NO_SESSION');
   }
   
-  await execTmux(['attach-session', '-t', SESSION_NAME]);
+  // Use stdio: 'inherit' to properly connect terminal
+  const { spawn } = await import('child_process');
+  const tmux = spawn('tmux', ['attach-session', '-t', SESSION_NAME], { 
+    stdio: 'inherit',
+    detached: false 
+  });
+  
+  return new Promise((resolve, reject) => {
+    tmux.on('close', (code) => {
+      if (code === 0) {
+        resolve();
+      } else {
+        reject(new ValidationError(`Failed to attach to session: exit code ${code}`, 'ATTACH_ERROR'));
+      }
+    });
+    
+    tmux.on('error', (error) => {
+      reject(new ValidationError(`Failed to attach to session: ${error.message}`, 'ATTACH_ERROR'));
+    });
+  });
 }
 
 export async function killSession(): Promise<void> {
