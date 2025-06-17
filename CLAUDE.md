@@ -106,6 +106,8 @@ Excludes common build/cache directories: `node_modules`, `.git`, `target`, `dist
 ### Key tmux Bindings
 - `Ctrl+b P` → Enhanced project selector with type indicators
 - `Ctrl+b C` → Launch Claude in current project
+- `Ctrl+b R` → Run claude-checkpoint-restore
+- `Ctrl+b M` → Run claude-checkpoint-save (Memory save)
 - `Ctrl+b S` → Stop workspace with proper cleanup
 - `Ctrl+b 1-9` → Jump to project windows
 

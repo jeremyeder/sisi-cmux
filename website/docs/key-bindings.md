@@ -14,6 +14,8 @@ These custom shortcuts are available inside your sisi workspace:
 |------|--------|-------------|
 | `Ctrl+b P` | **Project Selector** | Fuzzy search and switch between projects |
 | `Ctrl+b C` | **Launch Claude** | Start Claude CLI in current project |
+| `Ctrl+b R` | **Restore Checkpoint** | Run claude-checkpoint-restore |
+| `Ctrl+b M` | **Save Checkpoint** | Run claude-checkpoint-save (Memory save) |
 | `Ctrl+b S` | **Stop Workspace** | Clean shutdown of sisi workspace |
 
 ## Standard tmux Navigation
@@ -65,6 +67,10 @@ Ctrl+b 2    # Go to project window 2
 
 # Launch Claude for this project
 Ctrl+b C    # Claude starts with project context
+
+# Save and restore checkpoints
+Ctrl+b M    # Save current state as checkpoint
+Ctrl+b R    # Restore from checkpoint
 ```
 
 ### Clean Shutdown

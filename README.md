@@ -38,13 +38,28 @@ sisi ~/projects
 
 ## Key Bindings (inside tmux)
 
+### Main Commands
 | Keys | Action |
 |------|--------|
 | `Ctrl+b P` | **Project selector** - Fuzzy search all projects |
 | `Ctrl+b C` | **Launch Claude** in current project |
+| `Ctrl+b R` | **Restore checkpoint** - Resume last Claude conversation |
+| `Ctrl+b M` | **Memory save** - Save Claude checkpoint |
 | `Ctrl+b S` | **Stop workspace** |
-| `Ctrl+b 1-9` | Jump to project windows |
-| `Ctrl+b n/p` | Next/previous project |
+
+### Navigation
+| Keys | Action |
+|------|--------|
+| `Ctrl+b 1-9` | Jump to project windows by number |
+| `Ctrl+b n` | Next project window |
+| `Ctrl+b p` | Previous project window |
+
+### Pane Management
+| Keys | Action |
+|------|--------|
+| `Ctrl+b \|` | Split pane vertically |
+| `Ctrl+b -` | Split pane horizontally |
+| `Ctrl+b h/j/k/l` | Navigate between panes (vim-style) |
 
 ## Project Detection
 
@@ -65,7 +80,75 @@ Automatically detects project types:
 - ✅ **Performance limits** - Handles large directories safely
 - ✅ **Error recovery** - Graceful handling of missing dependencies
 - ✅ **Claude integration** - One-key AI assistance
+- ✅ **Checkpoint save/restore** - Save and resume Claude conversations
 - ✅ **Session persistence** - Attach/detach like normal tmux
+
+## Claude Checkpoint Save/Restore
+
+The checkpoint feature allows you to save your Claude conversation state and restore it later, making it easy to continue long-running tasks across sessions.
+
+### How it works
+
+1. **During a Claude conversation**: Press `Ctrl+b M` to save a checkpoint (runs `claude-checkpoint-save`)
+2. **Later, in any project**: Press `Ctrl+b R` to restore and continue (runs `claude-checkpoint-restore`)
+
+**Note**: These commands depend on your Claude CLI supporting checkpoint functionality. If not available, you can use Claude's built-in `--resume` and `--continue` flags.
+
+### Example workflow
+
+```bash
+# Start working on a feature
+$ sisi ~/projects
+# Navigate to your project window
+# Press Ctrl+b C to start Claude
+
+# After some work with Claude...
+# Press Ctrl+b M to save checkpoint
+# (You'll see: "✓ Checkpoint saved")
+
+# ... time passes, maybe you close terminal ...
+
+# Resume later
+$ sisi ~/projects  
+# Press Ctrl+b R to restore
+# (Claude continues where you left off)
+```
+
+### What it looks like on GitHub
+
+When using checkpoint save/restore in a project tracked by git, your workflow might look like:
+
+```
+┌─────────────────────────────────────────────────────┐
+│ tmux: project-name                                  │
+├─────────────────────────────────────────────────────┤
+│ $ claude                                            │
+│ Claude> Let me help you implement that feature...   │
+│ [working on authentication.js]                      │
+│                                                     │
+│ User: Can we add OAuth support?                    │
+│ Claude> Sure! Let me update the auth module...     │
+│                                                     │
+│ [Ctrl+b M pressed]                                  │
+│ ✓ Checkpoint saved                                  │
+│                                                     │
+│ $ git add -A && git commit -m "WIP: OAuth setup"   │
+│ $ exit                                              │
+└─────────────────────────────────────────────────────┘
+
+# Next day...
+
+┌─────────────────────────────────────────────────────┐
+│ tmux: project-name                                  │
+├─────────────────────────────────────────────────────┤
+│ [Ctrl+b R pressed]                                  │
+│ ✓ Checkpoint restored                               │
+│                                                     │
+│ Claude> Continuing from where we left off with      │
+│ OAuth implementation...                             │
+│ [resumes exactly where you stopped]                 │
+└─────────────────────────────────────────────────────┘
+```
 
 ## Examples
 

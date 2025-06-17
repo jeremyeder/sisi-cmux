@@ -33,13 +33,17 @@ bind-key P run-shell "node SCRIPT_DIR/project-selector.js"
 bind-key C send-keys 'claude' C-m
 bind-key S run-shell "node SCRIPT_DIR/stop-workspace.js"
 
+# claude-checkpoint-restore keybindings
+bind-key R send-keys 'claude-checkpoint-restore' C-m
+bind-key M send-keys 'claude-checkpoint-save' C-m
+
 # Status bar - clean design showing current project
 set -g status-bg "#4d4d4d"
 set -g status-fg "#ffffff"
 set -g status-left-length 20
 set -g status-left "#[fg=#7f317f,bold]sisi "
-set -g status-right-length 40
-set -g status-right "#[fg=#7f317f]^B+P:projects ^B+S:stop"
+set -g status-right-length 50
+set -g status-right "#[fg=#7f317f]^B+P:projects ^B+R:restore ^B+M:save ^B+S:stop"
 set -g status-interval 5
 set -g status-justify centre
 
