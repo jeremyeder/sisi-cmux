@@ -22,7 +22,7 @@ export default [
       'no-eval': 'error',
       'no-implied-eval': 'error',
       'no-new-func': 'error',
-      'no-console': 'warn',
+      'no-console': 'off', // CLI tool needs console output
       
       // Best practices
       'prefer-const': 'error',
