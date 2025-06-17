@@ -36,14 +36,32 @@ The project includes comprehensive error handling:
 
 ### Testing
 ```bash
-# Run all tests
+# Run core tests (simple, basic, types)
 npm test
 
 # Run tests in watch mode
 npm run test:watch
 
-# Run single test file (once tests exist)
-npx jest path/to/test.test.ts
+# Run documentation tests specifically
+npm run test:docs
+
+# Run all tests (including documentation)
+npm run test:all
+
+# Run single test file
+npx jest src/__tests__/simple.test.ts
+
+# Type checking
+npm run type-check
+
+# Linting
+npm run lint
+
+# Fix linting issues
+npm run lint:fix
+
+# Run full quality checks
+npm run quality
 ```
 
 ### Publishing and Distribution
@@ -104,6 +122,7 @@ Excludes common build/cache directories: `node_modules`, `.git`, `target`, `dist
 - **Peer Dependency**: `@anthropic-ai/claude-code` (Claude CLI integration)
 - **Build**: TypeScript, ts-node for development
 - **Testing**: Jest with ts-jest for TypeScript support
+- **Code Quality**: ESLint (with TypeScript parser), TypeScript compiler for type checking
 
 ## File Structure
 
@@ -115,3 +134,11 @@ Excludes common build/cache directories: `node_modules`, `.git`, `target`, `dist
 - `src/utils.ts` - Validation utilities and error handling
 - `src/project-selector.ts` - Enhanced TypeScript project picker with type indicators
 - `src/stop-workspace.ts` - TypeScript workspace cleanup utility
+- `src/__tests__/` - Test suite with comprehensive coverage
+  - `simple.test.ts` - Core functionality tests (utils, discovery)
+  - `basic.test.ts` - Basic integration tests
+  - `types.test.ts` - TypeScript type validation tests
+  - `documentation.test.ts` - Documentation and example tests
+- `dist/` - Compiled JavaScript output
+- `man/sisi.1` - Manual page for the CLI
+- `demo/` - Demo scripts and configuration
