@@ -1,6 +1,10 @@
-# sisi-cmux
-
-**Simple multi-project workspace manager with Claude Code integration**
+<div align="center">
+  <img src="logo.svg" alt="sisi-cmux logo" width="128" height="128">
+  
+  # sisi-cmux
+  
+  **Simple multi-project workspace manager with Claude Code integration**
+</div>
 
 Turn any directory into an organized tmux workspace. Auto-discovers your projects, creates windows for each one, and sets up Claude Code integration - all with one command.
 

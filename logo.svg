@@ -1,0 +1,59 @@
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="orangeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF8C42;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#E85A4F;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="lightOrangeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFB366;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FF8C42;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="64" cy="64" r="56" fill="url(#orangeGradient)" stroke="none"/>
+  
+  <!-- Main grid pattern representing tmux windows -->
+  <g transform="translate(24, 24)">
+    <!-- Top left window (active) -->
+    <rect x="0" y="0" width="32" height="24" fill="#FFFFFF" rx="3" ry="3" opacity="0.95"/>
+    <rect x="2" y="2" width="28" height="20" fill="url(#lightOrangeGradient)" rx="2" ry="2"/>
+    <circle cx="6" cy="6" r="2" fill="#FFFFFF" opacity="0.8"/>
+    
+    <!-- Top right window -->
+    <rect x="36" y="0" width="32" height="24" fill="#FFFFFF" rx="3" ry="3" opacity="0.85"/>
+    <rect x="38" y="2" width="28" height="20" fill="#D4793A" rx="2" ry="2"/>
+    
+    <!-- Bottom left window -->
+    <rect x="0" y="28" width="32" height="24" fill="#FFFFFF" rx="3" ry="3" opacity="0.85"/>
+    <rect x="2" y="30" width="28" height="20" fill="#D4793A" rx="2" ry="2"/>
+    
+    <!-- Bottom right window -->
+    <rect x="36" y="28" width="32" height="24" fill="#FFFFFF" rx="3" ry="3" opacity="0.85"/>
+    <rect x="38" y="30" width="28" height="20" fill="#D4793A" rx="2" ry="2"/>
+    
+    <!-- Terminal cursor in active window -->
+    <rect x="24" y="14" width="2" height="8" fill="#FFFFFF"/>
+    
+    <!-- Project type indicators -->
+    <!-- Node.js indicator (top right) -->
+    <circle cx="60" cy="8" r="3" fill="#68D391" opacity="0.9"/>
+    
+    <!-- Python indicator (bottom left) -->
+    <circle cx="8" cy="44" r="3" fill="#4299E1" opacity="0.9"/>
+    
+    <!-- Rust indicator (bottom right) -->
+    <circle cx="60" cy="44" r="3" fill="#F6AD55" opacity="0.9"/>
+  </g>
+  
+  <!-- Connection lines representing tmux session -->
+  <g stroke="#FFFFFF" stroke-width="2" fill="none" opacity="0.6">
+    <path d="M 40 40 L 56 40 L 56 56 L 72 56"/>
+    <path d="M 72 40 L 88 40 L 88 56 L 72 56"/>
+  </g>
+  
+  <!-- Central hub representing sisi coordination -->
+  <circle cx="64" cy="64" r="8" fill="#FFFFFF" opacity="0.9"/>
+  <circle cx="64" cy="64" r="6" fill="url(#orangeGradient)"/>
+  <circle cx="64" cy="64" r="3" fill="#FFFFFF"/>
+</svg>

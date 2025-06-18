@@ -36,6 +36,15 @@ program
   .description('Create workspace from directory (or attach if exists)')
   .action(async (directory: string) => {
     try {
+      // Display banner
+      console.log(chalk.hex('#FF8C42')('\n  ███████ ██ ███████ ██'));
+      console.log(chalk.hex('#FF8C42')('  ██      ██ ██      ██'));
+      console.log(chalk.hex('#FF8C42')('  ███████ ██ ███████ ██'));
+      console.log(chalk.hex('#FF8C42')('       ██ ██      ██ ██'));
+      console.log(chalk.hex('#FF8C42')('  ███████ ██ ███████ ██'));
+      console.log(chalk.hex('#E85A4F')(`\n  sisi-cmux v${program.version()}`));
+      console.log(chalk.gray('  Multi-project workspace manager\n'));
+
       // Check dependencies first
       await withErrorHandling(() => checkDependencies(), 'Dependency check failed');
 

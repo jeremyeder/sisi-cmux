@@ -1,0 +1,17 @@
+# GitHub repository configuration
+name: sisi-cmux
+description: Multi-project workspace manager with Claude Code integration
+topics:
+  - tmux
+  - workspace
+  - productivity
+  - cli
+  - developer-tools
+  - claude
+  - terminal
+  - project-management
+homepage: https://github.com/jeremyeder/sisi-cmux
+has_issues: true
+has_projects: false
+has_wiki: false
+has_downloads: true

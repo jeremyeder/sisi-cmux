@@ -61,6 +61,7 @@
   "bugs": {
     "url": "https://github.com/jeremyeder/sisi-cmux/issues"
   },
+  "icon": "logo.png",
   "files": [
     "dist/cli.js",
     "dist/cli.js.map",
@@ -87,6 +88,11 @@
     "dist/stop-workspace.js.map",
     "dist/stop-workspace.d.ts",
     "README.md",
+    "logo.svg",
+    "logo-small.svg",
+    "logo.png",
+    "logo-128.png",
+    "logo-64.png",
     "demo/sisi-demo.cast"
   ]
 }
