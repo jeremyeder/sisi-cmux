@@ -7,7 +7,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 const config: Config = {
   title: 'sisi-cmux',
   tagline: 'Multi-project workspace manager with tmux and Claude integration',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/logo-64.png',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
@@ -71,7 +71,7 @@ const config: Config = {
 
   themeConfig: {
     // Replace with your project's social card
-    image: 'img/docusaurus-social-card.jpg',
+    image: 'img/logo.png',
     navbar: {
       title: 'sisi-cmux',
       logo: {

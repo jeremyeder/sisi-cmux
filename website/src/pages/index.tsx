@@ -13,6 +13,7 @@ function HomepageHeader() {
   return (
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
       <div className="container">
+        <img src={`${siteConfig.baseUrl}img/logo.svg`} alt="sisi-cmux logo" width="128" height="128" style={{marginBottom: '2rem'}} />
         <Heading as="h1" className="hero__title">
           {siteConfig.title}
         </Heading>
@@ -21,7 +22,13 @@ function HomepageHeader() {
           <Link
             className="button button--secondary button--lg"
             to="/docs/intro">
-            Docusaurus Tutorial - 5min ⏱️
+            Get Started - 5min ⏱️
+          </Link>
+          <Link
+            className="button button--outline button--secondary button--lg"
+            to="https://github.com/jeremyeder/sisi-cmux"
+            style={{marginLeft: '1rem'}}>
+            View on GitHub
           </Link>
         </div>
       </div>
@@ -33,8 +40,8 @@ export default function Home(): ReactNode {
   const {siteConfig} = useDocusaurusContext();
   return (
     <Layout
-      title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />">
+      title={`${siteConfig.title} - Multi-project workspace manager`}
+      description="Manage multiple projects effortlessly with tmux and Claude Code integration. Auto-discover projects, create organized workspaces, and boost your productivity.">
       <HomepageHeader />
       <main>
         <HomepageFeatures />
