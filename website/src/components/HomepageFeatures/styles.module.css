@@ -9,3 +9,20 @@
   height: 200px;
   width: 200px;
 }
+
+.featureEmoji {
+  font-size: 72px;
+  line-height: 1;
+  margin-bottom: 1rem;
+  display: inline-block;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}

@@ -71,7 +71,7 @@ const config: Config = {
 
   themeConfig: {
     // Replace with your project's social card
-    image: 'img/logo.png',
+    image: 'img/sisi-social-card.svg',
     navbar: {
       title: 'sisi-cmux',
       logo: {
