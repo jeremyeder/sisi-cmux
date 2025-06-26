@@ -1,6 +1,6 @@
 {
   "name": "sisi-cmux",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Multi-project workspace manager with Claude code assistant integration",
   "type": "module",
   "main": "dist/cli.js",
