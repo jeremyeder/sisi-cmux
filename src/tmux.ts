@@ -78,7 +78,7 @@ export async function createSession(projects: Project[], configPath: string): Pr
     await execTmux([
       '-f', configPath,
       'new-session', '-d', '-s', SESSION_NAME, 
-      '-n', `${firstProject.icon}${firstProject.name}`,
+      '-n', `${firstProject.icon} ${firstProject.name}`,
       '-c', firstProject.path
     ]);
     createdWindows.push(firstProject.name);
@@ -91,7 +91,7 @@ export async function createSession(projects: Project[], configPath: string): Pr
       try {
         await execTmux([
           'new-window', '-t', SESSION_NAME,
-          '-n', `${project.icon}${project.name}`,
+          '-n', `${project.icon} ${project.name}`,
           '-c', project.path
         ]);
         createdWindows.push(project.name);
@@ -175,5 +175,89 @@ export async function listWindows(): Promise<Array<{ index: number; name: string
     });
   } catch {
     return [];
+  }
+}
+
+export async function addWindow(project: Project): Promise<void> {
+  try {
+    await execTmux([
+      'new-window', '-t', SESSION_NAME,
+      '-n', `${project.icon} ${project.name}`,
+      '-c', project.path
+    ]);
+    console.log(chalk.green(`  ✓ Added window for ${project.name}`));
+  } catch (error) {
+    throw new ValidationError(`Failed to add window for ${project.name}: ${(error as Error).message}`, 'ADD_WINDOW_ERROR');
+  }
+}
+
+export async function removeWindow(windowName: string): Promise<void> {
+  try {
+    // Find the window by name pattern (removing emoji prefix)
+    const windows = await listWindows();
+    const targetWindow = windows.find(w => w.name.includes(windowName));
+    
+    if (targetWindow) {
+      await execTmux(['kill-window', '-t', `${SESSION_NAME}:${targetWindow.index}`]);
+      console.log(chalk.yellow(`  ✓ Removed window for ${windowName}`));
+    }
+  } catch (error) {
+    throw new ValidationError(`Failed to remove window for ${windowName}: ${(error as Error).message}`, 'REMOVE_WINDOW_ERROR');
+  }
+}
+
+export async function updateProjectWindows(newProjects: Project[], rootDir: string): Promise<void> {
+  const currentWindows = await listWindows();
+  const currentProjectNames = currentWindows.map(w => {
+    // Extract project name by removing emoji prefix (with space)
+    return w.name.replace(/^[📦🐍⚙️🌐📁]\s*/, '').trim();
+  });
+  
+  const newProjectNames = newProjects.map(p => p.name);
+  
+  // Find projects to add (new ones not in current windows)
+  const projectsToAdd = newProjects.filter(p => !currentProjectNames.includes(p.name));
+  
+  // Find projects to remove (current windows not in new project list)
+  const projectsToRemove = currentProjectNames.filter(name => !newProjectNames.includes(name));
+  
+  // Add new project windows
+  for (const project of projectsToAdd) {
+    try {
+      await addWindow(project);
+    } catch (error) {
+      console.log(chalk.yellow(`  ⚠️  ${(error as Error).message}`));
+    }
+  }
+  
+  // Remove old project windows
+  for (const projectName of projectsToRemove) {
+    try {
+      await removeWindow(projectName);
+    } catch (error) {
+      console.log(chalk.yellow(`  ⚠️  ${(error as Error).message}`));
+    }
+  }
+  
+  // Refresh status bar to show updated project count
+  await refreshStatusBar();
+  
+  const addedCount = projectsToAdd.length;
+  const removedCount = projectsToRemove.length;
+  
+  if (addedCount > 0 || removedCount > 0) {
+    console.log(chalk.green(`  ✓ Updated workspace: +${addedCount} -${removedCount} projects`));
+  } else {
+    console.log(chalk.dim('  ✓ No project changes detected'));
+  }
+}
+
+export async function refreshStatusBar(): Promise<void> {
+  try {
+    // Force tmux to refresh the status bar
+    await execTmux(['refresh-client', '-S']);
+  } catch (error) {
+    // Ignore refresh errors - not critical
+    console.log(chalk.dim(`  Warning: Failed to refresh status bar: ${(error as Error).message}`));
   }
 }

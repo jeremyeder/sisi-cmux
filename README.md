@@ -36,6 +36,7 @@ sisi ~/projects
 | Command | Description |
 |---------|-------------|
 | `sisi [directory]` | Create/attach workspace from directory |
+| `sisi refresh <directory>` | **Refresh projects** - Update workspace with current projects |
 | `sisi stop` | Stop the workspace |
 | `sisi --help` | Show help |
 | `sisi --version` | Show version |
@@ -45,11 +46,20 @@ sisi ~/projects
 ### Main Commands
 | Keys | Action |
 |------|--------|
+| `Ctrl+b Q` | **Quick actions panel** - Show project-specific actions and status |
 | `Ctrl+b P` | **Project selector** - Fuzzy search all projects |
+| `Ctrl+b U` | **Refresh projects** - Dynamically update workspace projects |
 | `Ctrl+b C` | **Launch Claude** in current project |
 | `Ctrl+b R` | **Restore checkpoint** - Resume last Claude conversation |
 | `Ctrl+b M` | **Memory save** - Save Claude checkpoint |
 | `Ctrl+b S` | **Stop workspace** |
+
+### Project Commands
+| Keys | Action |
+|------|--------|
+| `Ctrl+b D` | **Dev/Run** - Start development server (context-aware) |
+| `Ctrl+b T` | **Test** - Run project tests (context-aware) |
+| `Ctrl+b B` | **Build** - Build project (context-aware) |
 
 ### Navigation
 | Keys | Action |
@@ -86,6 +96,8 @@ Automatically detects project types:
 - ✅ **Claude integration** - One-key AI assistance
 - ✅ **Checkpoint save/restore** - Save and resume Claude conversations
 - ✅ **Session persistence** - Attach/detach like normal tmux
+- 🆕 **Project-specific commands** - Context-aware dev/test/build commands
+- 🆕 **Quick actions panel** - Interactive menu with project status and actions
 
 ## Claude Checkpoint Save/Restore
 
@@ -153,6 +165,73 @@ When using checkpoint save/restore in a project tracked by git, your workflow mi
 │ [resumes exactly where you stopped]                 │
 └─────────────────────────────────────────────────────┘
 ```
+
+## Project-Specific Commands
+
+The new context-aware command system automatically detects your project type and executes the most appropriate commands:
+
+### How it works
+
+- **`Ctrl+b D`** - **Dev/Run**: Starts development server or runs your application
+- **`Ctrl+b T`** - **Test**: Runs the project's test suite
+- **`Ctrl+b B`** - **Build**: Builds the project for production/distribution
+
+### Project-specific behavior
+
+| Project Type | Dev Command | Test Command | Build Command |
+|--------------|-------------|--------------|---------------|
+| **Node.js** | `npm run dev` → `npm start` | `npm test` | `npm run build` |
+| **Python** | `python manage.py runserver` (Django) <br> `python app.py` (Flask) | `pytest` → `unittest` | `pip install -r requirements.txt` |
+| **Rust** | `cargo run` | `cargo test` | `cargo build --release` |
+| **Go** | `go run .` | `go test ./...` | `go build` |
+
+### Smart detection
+
+- **Django projects**: Automatically detects `manage.py` and uses Django commands
+- **Flask projects**: Detects `app.py` and runs Flask applications
+- **Monorepos**: Works in subdirectories with their own project files
+- **Yarn vs npm**: Auto-detects and uses the appropriate package manager
+
+## Quick Actions Panel
+
+Press **`Ctrl+b Q`** to open an interactive panel showing:
+
+### Project Status
+```
+🚀 Quick Actions Panel
+
+📊 Project Status:
+  📦 Type: node
+  🌿 Branch: feature/new-ui ✅ clean
+  📦 Dependencies: 47 total
+  🏃 Running: 2 processes
+  ⏰ Updated: 15:32
+```
+
+### Available Actions
+```
+⚡ Available Actions:
+
+  E - Open in Editor
+      Open project in VS Code
+  
+  D - Dev Server  
+      Start development server
+  
+  T - Run Tests
+      Run test suite
+  
+  G - Git Status
+      Show git status
+  
+  ESC - Close panel
+  Q   - Quit
+```
+
+### Interactive usage
+- **Type any letter** to execute that action immediately
+- **ESC** to close the panel and return to tmux
+- **Q** to quit the panel
 
 ## Examples
 

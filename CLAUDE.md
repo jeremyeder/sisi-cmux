@@ -24,6 +24,9 @@ npm run dev
 
 # Test locally after build
 ./dist/cli.js ~/projects
+
+# Refresh projects in existing workspace
+./dist/cli.js refresh ~/projects
 ```
 
 ### Error Handling and Validation
@@ -73,6 +76,30 @@ npm install -g .
 sisi ~/projects
 ```
 
+### Dynamic Project Management
+The workspace supports dynamic project updates without recreating the entire session:
+
+```bash
+# CLI command to refresh projects
+sisi refresh <directory>
+
+# tmux key binding (within session)
+Ctrl+b U  # Prompts for directory to refresh
+```
+
+**Dynamic Features:**
+- **Add new projects**: Automatically creates tmux windows for newly discovered projects
+- **Remove deleted projects**: Cleans up windows for projects that no longer exist
+- **Preserve existing projects**: Maintains current windows and their state
+- **Update tab bar**: Refreshes status bar to show current project count
+- **Real-time feedback**: Shows what projects were added/removed during refresh
+
+**Use Cases:**
+- Added a new project to your workspace directory
+- Deleted or moved a project
+- Want to update the workspace without losing current tmux session state
+- Need to sync workspace with current directory contents
+
 ## Architecture
 
 ### Core Flow
@@ -80,6 +107,10 @@ sisi ~/projects
 2. **Project Discovery (`discovery.ts`)**: Scans directories for projects, detects types (Node.js, Python, Rust, Go, Web)
 3. **tmux Integration (`tmux.ts`)**: Creates/manages tmux sessions with project windows
 4. **Configuration (`tmux-config.ts`)**: tmux key bindings and layout
+5. **Dynamic Features**: 
+   - **Project Commands (`project-commands.ts`)**: Context-aware dev/test/build command execution
+   - **Quick Actions (`quick-actions.ts`)**: Interactive panel with project status and actions
+   - **Refresh Projects (`refresh-projects.ts`)**: Dynamic workspace updates without session recreation
 
 ### Session Management
 - **Session Name**: `sisi-workspace` (hardcoded constant)
@@ -104,11 +135,16 @@ Projects are identified by specific files in directories:
 Excludes common build/cache directories: `node_modules`, `.git`, `target`, `dist`, `build`, `.cache`, `.vscode`, `.vs`, `bin`, `obj`, `.gradle`, `.mvn`, etc.
 
 ### Key tmux Bindings
+- `Ctrl+b Q` → **Quick actions panel** - Show project-specific actions and status
 - `Ctrl+b P` → Enhanced project selector with type indicators
+- `Ctrl+b U` → Refresh workspace projects dynamically
 - `Ctrl+b C` → Launch Claude in current project
 - `Ctrl+b R` → Run claude-checkpoint-restore
 - `Ctrl+b M` → Run claude-checkpoint-save (Memory save)
 - `Ctrl+b S` → Stop workspace with proper cleanup
+- `Ctrl+b D` → **Dev/Run** - Start development server (context-aware)
+- `Ctrl+b T` → **Test** - Run project tests (context-aware)
+- `Ctrl+b B` → **Build** - Build project (context-aware)
 - `Ctrl+b 1-9` → Jump to project windows
 
 ## TypeScript Configuration
@@ -136,11 +172,17 @@ Excludes common build/cache directories: `node_modules`, `.git`, `target`, `dist
 - `src/utils.ts` - Validation utilities and error handling
 - `src/project-selector.ts` - Enhanced TypeScript project picker with type indicators
 - `src/stop-workspace.ts` - TypeScript workspace cleanup utility
+- `src/project-commands.ts` - Context-aware project command execution (dev/test/build)
+- `src/quick-actions.ts` - Interactive quick actions panel with project status
+- `src/refresh-projects.ts` - Dynamic project refresh functionality
 - `src/__tests__/` - Test suite with comprehensive coverage
   - `simple.test.ts` - Core functionality tests (utils, discovery)
   - `basic.test.ts` - Basic integration tests
   - `types.test.ts` - TypeScript type validation tests
   - `documentation.test.ts` - Documentation and example tests
+  - `project-commands.test.ts` - Project command execution tests
+  - `refresh-projects.test.ts` - Dynamic refresh functionality tests
+  - `tmux-dynamic.test.ts` - Dynamic tmux session management tests
 - `dist/` - Compiled JavaScript output
 - `man/sisi.1` - Manual page for the CLI
 - `demo/` - Demo scripts and configuration

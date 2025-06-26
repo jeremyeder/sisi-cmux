@@ -8,6 +8,7 @@ import { fileURLToPath } from 'url';
 import { discoverProjects } from './discovery.js';
 import { createSession, attachSession, killSession, sessionExists } from './tmux.js';
 import { TMUX_CONFIG } from './tmux-config.js';
+import { refreshProjects } from './refresh-projects.js';
 import { checkDependencies, validateDirectory, formatError, withErrorHandling } from './utils.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -94,8 +95,13 @@ program
       
       console.log(chalk.green('✅ Workspace created!'));
       console.log(chalk.dim('Key bindings:'));
+      console.log(chalk.dim('  Ctrl+b Q  - Quick actions panel'));
       console.log(chalk.dim('  Ctrl+b P  - Project selector'));
+      console.log(chalk.dim('  Ctrl+b U  - Refresh projects'));
       console.log(chalk.dim('  Ctrl+b C  - Launch Claude'));
+      console.log(chalk.dim('  Ctrl+b D  - Dev/Run project'));
+      console.log(chalk.dim('  Ctrl+b T  - Test project'));
+      console.log(chalk.dim('  Ctrl+b B  - Build project'));
       console.log(chalk.dim('  Ctrl+b S  - Stop workspace'));
       console.log();
       
@@ -121,6 +127,21 @@ program
       
       await withErrorHandling(() => killSession(), 'Failed to stop workspace');
       console.log(chalk.green('✅ Workspace stopped'));
+    } catch (error) {
+      console.error(formatError(error as Error));
+      process.exit(1);
+    }
+  });
+
+// Refresh command: sisi refresh <directory>
+program
+  .command('refresh')
+  .argument('<directory>', 'Directory to rescan for projects')
+  .description('Refresh workspace projects dynamically')
+  .action(async (directory: string) => {
+    try {
+      await withErrorHandling(() => validateDirectory(directory), 'Directory validation failed');
+      await withErrorHandling(() => refreshProjects(directory), 'Failed to refresh projects');
     } catch (error) {
       console.error(formatError(error as Error));
       process.exit(1);
