@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { readdir, access, readFile } from 'fs/promises';
+import { access } from 'fs/promises';
 import { join } from 'path';
 import { spawn } from 'child_process';
 import chalk from 'chalk';
@@ -9,7 +9,7 @@ interface ProjectCommand {
   name: string;
   command: string;
   description: string;
-  condition?: (projectPath: string) => Promise<boolean>;
+  condition?: (projectPath: string) => Promise<boolean>; // eslint-disable-line no-unused-vars
 }
 
 interface ProjectCommandSet {

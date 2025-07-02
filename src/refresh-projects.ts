@@ -14,7 +14,7 @@ async function refreshProjects(rootDir?: string): Promise<void> {
     }
 
     // If no root directory provided, try to get it from current tmux session
-    let targetDir = rootDir;
+    const targetDir = rootDir;
     if (!targetDir) {
       // For now, require the directory parameter
       // In future versions, we could store the original root dir in session variables
@@ -37,7 +37,7 @@ async function refreshProjects(rootDir?: string): Promise<void> {
     console.log(chalk.dim(`  Found ${newProjects.length} projects`));
 
     // Update tmux windows
-    await updateProjectWindows(newProjects, targetDir);
+    await updateProjectWindows(newProjects);
 
     console.log(chalk.green('✅ Workspace refresh complete!'));
 

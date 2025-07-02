@@ -44,13 +44,15 @@ export default [
         Buffer: 'readonly',
         describe: 'readonly',
         it: 'readonly',
+        test: 'readonly',
         expect: 'readonly',
         beforeAll: 'readonly',
         beforeEach: 'readonly',
         afterAll: 'readonly',
         afterEach: 'readonly',
         jest: 'readonly',
-        fail: 'readonly'
+        fail: 'readonly',
+        __dirname: 'readonly'
       }
     },
     rules: {

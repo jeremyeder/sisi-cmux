@@ -6,7 +6,7 @@ export const TMUX_CONFIG = `
 # ═══════════════════════════════════════════════════════════════════
 
 # Reload configuration with Prefix + r
-bind r source-file /tmp/sisi-tmux-config.conf \; display-message "Config reloaded!"
+bind r source-file /tmp/sisi-tmux-config.conf ; display-message "Config reloaded!"
 
 # ═══════════════════════════════════════════════════════════════════
 # CORE SETTINGS
