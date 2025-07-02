@@ -1,15 +1,87 @@
 // tmux configuration template with key bindings
 export const TMUX_CONFIG = `
-# General tmux settings
-set -g default-terminal "screen-256color"
+# ═══════════════════════════════════════════════════════════════════
+# Ultimate TMUX Configuration with sisi-cmux Integration
+# Based on tmux-ultimate configuration
+# ═══════════════════════════════════════════════════════════════════
+
+# Reload configuration with Prefix + r
+bind r source-file /tmp/sisi-tmux-config.conf \; display-message "Config reloaded!"
+
+# ═══════════════════════════════════════════════════════════════════
+# CORE SETTINGS
+# ═══════════════════════════════════════════════════════════════════
+
+# Enable mouse support
 set -g mouse on
-set -g history-limit 10000
+
+# ═══════════════════════════════════════════════════════════════════
+# APPEARANCE & STATUS BAR
+# ═══════════════════════════════════════════════════════════════════
+
+# Pane border status - show current directory
+set -g pane-border-status top
+set -g pane-border-format '#P: #{b:pane_current_path}'
+
+# Enable 256 colors
+set -g default-terminal "screen-256color"
+
+# Enable true color support
+set -ga terminal-overrides ",*256col*:Tc"
+
+# Dracula Color Scheme with sisi modifications
+set -g status-bg '#44475a'
+set -g status-fg '#f8f8f2'
+set -g window-status-current-style 'bg=#bd93f9,fg=#282a36'
+set -g pane-border-style 'fg=#6272a4'
+set -g pane-active-border-style 'fg=#bd93f9,bg=#bd93f9'
+
+# Status bar configuration with sisi integration
+set -g status-left '#[fg=#bd93f9,bold]sisi #[fg=#f8f8f2][#S] '
+set -g status-right '#[fg=#bd93f9]^B+Q:actions ^B+P:projects ^B+U:refresh #[fg=#f8f8f2]| %Y-%m-%d | %H:%M'
+set -g status-left-length 50
+set -g status-right-length 60
+set -g status-justify centre
+
+# Window status - hide window information for cleaner status bar
+setw -g window-status-format ""
+setw -g window-status-current-format ""
+
+# ═══════════════════════════════════════════════════════════════════
+# BEHAVIOR SETTINGS
+# ═══════════════════════════════════════════════════════════════════
+
+# History buffer size
+set -g history-limit 5000
+
+# Start windows and panes at 1, not 0
 set -g base-index 1
 setw -g pane-base-index 1
 
-# Key bindings for navigation
-bind-key | split-window -h
-bind-key - split-window -v
+# Disable automatic window renaming
+set-option -g allow-rename off
+setw -g automatic-rename off
+
+# Renumber windows when a window is closed
+set -g renumber-windows on
+
+# ═══════════════════════════════════════════════════════════════════
+# KEY BINDINGS
+# ═══════════════════════════════════════════════════════════════════
+
+# Split panes using | and -
+bind | split-window -h
+bind - split-window -v
+unbind '"'
+unbind %
+
+# Switch panes using Alt+arrow without prefix
+bind -n M-Left select-pane -L
+bind -n M-Right select-pane -R
+bind -n M-Up select-pane -U
+bind -n M-Down select-pane -D
+
+# Vim-style pane navigation (preserved from sisi)
 bind-key h select-pane -L
 bind-key j select-pane -D
 bind-key k select-pane -U
@@ -28,7 +100,11 @@ bind-key 7 select-window -t 7
 bind-key 8 select-window -t 8
 bind-key 9 select-window -t 9
 
-# sisi key bindings
+# ═══════════════════════════════════════════════════════════════════
+# SISI-CMUX KEY BINDINGS
+# ═══════════════════════════════════════════════════════════════════
+
+# sisi workspace management
 bind-key P run-shell "node SCRIPT_DIR/project-selector.js"
 bind-key C send-keys 'claude' C-m
 bind-key S run-shell "node SCRIPT_DIR/stop-workspace.js"
@@ -46,17 +122,7 @@ bind-key B run-shell "node SCRIPT_DIR/project-commands.js build"
 # Quick actions panel
 bind-key Q run-shell "node SCRIPT_DIR/quick-actions.js"
 
-# Status bar - clean design showing current project
-set -g status-bg "#4d4d4d"
-set -g status-fg "#ffffff"
-set -g status-left-length 20
-set -g status-left "#[fg=#7f317f,bold]sisi "
-set -g status-right-length 50
-set -g status-right "#[fg=#7f317f]^B+Q:actions ^B+P:projects ^B+U:refresh ^B+S:stop"
-set -g status-interval 5
-set -g status-justify centre
-
-# Window status - show current project only
-setw -g window-status-format ""
-setw -g window-status-current-format " #[fg=#ffffff,bg=#7f317f,bold]▶ #W#[fg=default,bg=default,nobold] #[fg=#666666][#{session_windows} total]#[fg=default] "
+# ═══════════════════════════════════════════════════════════════════
+# END OF CONFIGURATION
+# ═══════════════════════════════════════════════════════════════════
 `;
