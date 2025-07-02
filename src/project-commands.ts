@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { readdir, access, readFile } from 'fs/promises';
+import { access } from 'fs/promises';
 import { join } from 'path';
 import { spawn } from 'child_process';
 import chalk from 'chalk';
@@ -9,7 +9,7 @@ interface ProjectCommand {
   name: string;
   command: string;
   description: string;
-  condition?: (projectPath: string) => Promise<boolean>;
+  condition?: (projectPath: string) => Promise<boolean>; // eslint-disable-line no-unused-vars
 }
 
 interface ProjectCommandSet {
@@ -192,14 +192,32 @@ async function executeProjectCommand(action: 'dev' | 'test' | 'build'): Promise<
   });
 }
 
-// CLI interface
-const action = process.argv[2] as 'dev' | 'test' | 'build';
-if (!action || !['dev', 'test', 'build'].includes(action)) {
-  console.log(chalk.red('Usage: project-commands <dev|test|build>'));
-  process.exit(1);
+async function getProjectType(directory: string): Promise<string> {
+  const projectType = await detectProjectType(directory);
+  return projectType || 'unknown';
 }
 
-executeProjectCommand(action).catch(error => {
+// CLI interface
+async function main() {
+  const action = process.argv[2] as 'dev' | 'test' | 'build';
+  const isDryRun = process.argv.includes('--dry-run');
+
+  if (!action || !['dev', 'test', 'build'].includes(action)) {
+    console.log(chalk.red('Usage: project-commands <dev|test|build> [--dry-run]'));
+    process.exit(1);
+  }
+
+  // For dry-run, just detect and print the project type
+  if (isDryRun) {
+    const projectType = await getProjectType(process.cwd());
+    console.log(`${projectType} project detected`);
+    process.exit(0);
+  }
+
+  await executeProjectCommand(action);
+}
+
+main().catch(error => {
   console.error(chalk.red('Error executing command:'), error.message);
   process.exit(1);
 }); 
