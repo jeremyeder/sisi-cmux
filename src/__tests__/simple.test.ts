@@ -2,6 +2,7 @@
 
 import { ValidationError, DependencyError, validatePath } from '../utils';
 import { discoverProjects } from '../discovery';
+import { join } from 'path';
 
 describe('Simple Core Tests', () => {
   describe('Error Classes', () => {
@@ -25,7 +26,7 @@ describe('Simple Core Tests', () => {
     });
 
     it('validatePath returns true for package.json', async () => {
-      const exists = await validatePath('./package.json');
+      const exists = await validatePath(join(__dirname, '../../package.json'));
       expect(exists).toBe(true);
     });
   });

@@ -30,7 +30,7 @@ describe('Project Commands', () => {
       await writeFile(join(testDir, 'package.json'), JSON.stringify(packageJson, null, 2));
       
       // Test that the project commands script would detect this as a Node.js project
-      const { stdout } = execSync(`node ${__dirname}/../project-commands.js dev --dry-run || echo "node project detected"`, { 
+      const stdout = execSync(`node ${__dirname}/../../dist/project-commands.js dev --dry-run || echo "node project detected"`, { 
         cwd: testDir,
         encoding: 'utf8'
       });
@@ -42,7 +42,7 @@ describe('Project Commands', () => {
       await writeFile(join(testDir, 'requirements.txt'), 'django>=3.0\npytest>=6.0\n');
       
       // Test Python project detection
-      const { stdout } = execSync(`node ${__dirname}/../project-commands.js dev --dry-run || echo "python project detected"`, { 
+      const stdout = execSync(`node ${__dirname}/../../dist/project-commands.js dev --dry-run || echo "python project detected"`, { 
         cwd: testDir,
         encoding: 'utf8'
       });
@@ -62,7 +62,7 @@ edition = "2021"
       await writeFile(join(testDir, 'Cargo.toml'), cargoToml);
       
       // Test Rust project detection
-      const { stdout } = execSync(`node ${__dirname}/../project-commands.js dev --dry-run || echo "rust project detected"`, { 
+      const stdout = execSync(`node ${__dirname}/../../dist/project-commands.js dev --dry-run || echo "rust project detected"`, { 
         cwd: testDir,
         encoding: 'utf8'
       });
@@ -123,12 +123,12 @@ edition = "2021"
       await writeFile(join(testDir, 'README.md'), '# Test Project\n');
       
       // Should not crash and should show appropriate message
-      const { stderr } = execSync(`node ${__dirname}/../project-commands.js dev 2>&1 || echo "handled gracefully"`, { 
+      const output = execSync(`node ${__dirname}/../../dist/project-commands.js dev 2>&1 || echo "handled gracefully"`, { 
         cwd: testDir,
         encoding: 'utf8'
       });
       
-      expect(stderr).toContain('Unknown project type');
+      expect(output).toContain('Unknown project type');
     });
 
     test('should handle missing commands gracefully', async () => {
