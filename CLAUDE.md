@@ -39,7 +39,7 @@ The project includes comprehensive error handling:
 
 ### Testing
 ```bash
-# Run core tests (simple, basic, types)
+# Run core tests (simple, basic, types, project-commands)
 npm test
 
 # Run tests in watch mode
@@ -63,8 +63,11 @@ npm run lint
 # Fix linting issues
 npm run lint:fix
 
-# Run full quality checks
+# Run full quality checks (includes type-check, lint, test)
 npm run quality
+
+# Security audit
+npm run security:audit
 ```
 
 ### Publishing and Distribution
@@ -183,6 +186,23 @@ Excludes common build/cache directories: `node_modules`, `.git`, `target`, `dist
   - `project-commands.test.ts` - Project command execution tests
   - `refresh-projects.test.ts` - Dynamic refresh functionality tests
   - `tmux-dynamic.test.ts` - Dynamic tmux session management tests
+  - `keybindings.test.ts` - tmux key binding tests
 - `dist/` - Compiled JavaScript output
 - `man/sisi.1` - Manual page for the CLI
 - `demo/` - Demo scripts and configuration
+
+## Quality Assurance
+
+### Pre-commit Requirements
+Before committing any changes, ensure all quality checks pass:
+```bash
+npm run quality  # Runs type-check, lint, and test
+npm run security:audit  # Check for security vulnerabilities
+```
+
+### Development Workflow
+1. Make changes to TypeScript files in `src/`
+2. Run `npm run build` to compile
+3. Test locally with `./dist/cli.js ~/test-projects`
+4. Run full test suite with `npm test`
+5. Ensure all quality checks pass before committing
