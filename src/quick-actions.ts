@@ -85,10 +85,11 @@ class QuickActionsPanel {
       const { type } = await this.detectProjectType();
       
       switch (type) {
-        case 'node':
+        case 'node': {
           const packageJson = JSON.parse(await readFile(join(this.projectPath, 'package.json'), 'utf-8'));
           const deps = { ...packageJson.dependencies, ...packageJson.devDependencies };
           return { total: Object.keys(deps).length, outdated: 0 };
+        }
         
         case 'python':
           try {
@@ -125,7 +126,9 @@ class QuickActionsPanel {
   }
 
   getProjectActions(): QuickAction[] {
-    if (!this.projectStatus) return [];
+    if (!this.projectStatus) {
+      return [];
+    }
 
     const actions: QuickAction[] = [];
 
@@ -183,7 +186,9 @@ class QuickActionsPanel {
   }
 
   displayStatus(): void {
-    if (!this.projectStatus) return;
+    if (!this.projectStatus) {
+      return;
+    }
 
     console.log(chalk.bold('\n🚀 Quick Actions Panel\n'));
     
@@ -214,7 +219,7 @@ class QuickActionsPanel {
     actions.forEach(action => {
       const colorName = action.color || 'white';
       const colorFn = typeof chalk[colorName as keyof typeof chalk] === 'function' 
-        ? chalk[colorName as keyof typeof chalk] as (text: string) => string
+        ? chalk[colorName as keyof typeof chalk] as Function
         : chalk.white;
       console.log(`  ${colorFn(action.key.toUpperCase())} - ${action.title}`);
       console.log(`      ${chalk.dim(action.description)}`);

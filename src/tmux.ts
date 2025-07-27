@@ -206,11 +206,11 @@ export async function removeWindow(windowName: string): Promise<void> {
   }
 }
 
-export async function updateProjectWindows(newProjects: Project[], rootDir: string): Promise<void> {
+export async function updateProjectWindows(newProjects: Project[]): Promise<void> {
   const currentWindows = await listWindows();
   const currentProjectNames = currentWindows.map(w => {
     // Extract project name by removing emoji prefix (with space)
-    return w.name.replace(/^[📦🐍⚙️🌐📁]\s*/, '').trim();
+    return w.name.replace(/^(?:📦|🐍|⚙️|🌐|📁)\s*/u, '').trim();
   });
   
   const newProjectNames = newProjects.map(p => p.name);
